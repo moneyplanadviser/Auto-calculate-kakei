@@ -1,0 +1,542 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="ja"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;Family Money｜家計かんたん診断&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>:root {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--bg: #f8f5f0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--card: #ffffff;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--accent: #c89f6c;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--accent-soft: #f3e3cf;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--text-main: #333333;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--text-sub: #666666;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--danger: #d46a6a;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--safe: #4d9b6b;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--border: #e0d6c7;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--radius-lg: 18px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--radius-sm: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>* {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-sizing: border-box;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>"ヒラギノ角ゴ ProN", "Hiragino Kaku Gothic ProN", "Yu Gothic",</p>
+<p class="p1"><span class="Apple-converted-space">        </span>"游ゴシック", "Noto Sans JP", sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: var(--bg);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-main);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.app {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>max-width: 960px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 0 auto;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hero {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hero-title {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1.6rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hero-sub {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.95rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-sub);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>line-height: 1.6;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.cards {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: grid;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>gap: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>@media (max-width: 768px) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>.cards {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>grid-template-columns: minmax(0, 1fr);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.card {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: var(--card);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: var(--radius-lg);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 16px 18px 18px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 8px 18px rgba(0, 0, 0, 0.04);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid var(--border);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.card-title {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>gap: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.badge {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.72rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 2px 8px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 999px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: var(--accent-soft);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--accent);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.section-help {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.8rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-sub);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.grid-2 {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: grid;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>gap: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.field {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.field label {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: block;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.8rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-sub);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.field input {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 7px 8px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.9rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: var(--radius-sm);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid var(--border);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #fcfbf8;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.field input:focus {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>outline: none;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-color: var(--accent);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 0 0 2px rgba(200, 159, 108, 0.18);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #ffffff;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.input-suffix {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.8rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-sub);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-left: 2px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-row {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>flex-wrap: wrap;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>gap: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>button {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: none;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 999px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 8px 18px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.9rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: var(--accent);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #ffffff;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: inline-flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>gap: 6px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>button span.icon {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1.1rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>button.secondary {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: transparent;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-sub);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid var(--border);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 500;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hint {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.75rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-sub);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.result-header {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: baseline;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>justify-content: space-between;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>gap: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.result-tagline {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.85rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-sub);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.pill {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 4px 10px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 999px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.78rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid var(--border);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #fcfbf8;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.pill-safe {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-color: var(--safe);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--safe);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #f1f7f3;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.pill-caution {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-color: #e2a23c;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #e2a23c;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #fff6e6;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.pill-danger {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-color: var(--danger);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--danger);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #ffecec;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.result-grid {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: grid;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>gap: 6px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.metric {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: var(--radius-sm);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 8px 9px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #fcfbf8;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid var(--border);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.8rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.metric-label {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-sub);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 2px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.metric-value {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.9rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.metric-note {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.7rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-sub);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.result-message {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.85rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>line-height: 1.7;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.result-next {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.8rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-sub);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.footer-note {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.72rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-sub);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="app"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;header class="hero"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="hero-title"&gt;Family Money｜家計かんたん診断&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="hero-sub"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>40代・晩産夫婦向けのミニ診断です。&lt;br /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>今の家計バランスをざっくり見える化して、「安心して使えるお金」を考えるきっかけにしてください。</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/header&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;main class="cards"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- 入力エリア --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;section class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card-title"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>毎月の数字を入れてみる</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="badge"&gt;1〜2分でOK&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="section-help"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>手取りやざっくりした金額で大丈夫です。思い出せる範囲で、気楽に入れてみてください。</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;form id="kakei-form"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="field"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label&gt;① 世帯の毎月の手取り収入</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span class="input-suffix"&gt;（ボーナスはならしてOK）&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="number" id="income" min="0" placeholder="例）480000" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="grid-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="field"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;label&gt;② 住居費（家賃・住宅ローン）&lt;span class="input-suffix"&gt;／月&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;input type="number" id="housing" min="0" placeholder="例）120000" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="field"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;label&gt;③ 光熱費・通信費など固定費&lt;span class="input-suffix"&gt;／月&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;input type="number" id="utilities" min="0" placeholder="例）40000" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="grid-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="field"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;label&gt;④ 保険料の合計&lt;span class="input-suffix"&gt;／月&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;input type="number" id="insurance" min="0" placeholder="例）30000" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="field"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;label&gt;⑤ 保育料・教育費（現時点）&lt;span class="input-suffix"&gt;／月&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;input type="number" id="education" min="0" placeholder="例）30000" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="field"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label&gt;⑥ 食費・日用品など（家族の生活費）&lt;span class="input-suffix"&gt;／月&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="number" id="living" min="0" placeholder="例）90000" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="field"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label&gt;⑦ レジャー・外食・カフェなどの自由費&lt;span class="input-suffix"&gt;／月&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="number" id="play" min="0" placeholder="例）30000" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="field"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label&gt;⑧ 毎月の貯金・つみたて額&lt;span class="input-suffix"&gt;／月&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="number" id="savings" min="0" placeholder="例）50000" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="btn-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button type="submit"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span class="icon"&gt;▶&lt;/span&gt; 家計を診断する</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button type="button" class="secondary" id="reset-btn"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>リセット</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p class="hint"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>※ 正確な家計簿でなくてOK。「だいたい」で入れても、今のバランスの目安が分かります。</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/form&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- 結果エリア --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;section class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="card-title"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>診断結果</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="badge"&gt;Family Money視点&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="result-area"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p class="section-help"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>数字を入力して「家計を診断する」を押すと、ここに結果が表示されます。</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p class="section-help"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>貯蓄率・固定費の割合・安心度タイプを、40代・晩産家庭の目線でやさしく見える化します。</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="footer-note"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>※ これはあくまで簡易診断です。正確なライフプランは、ご家庭の状況に合わせた個別設計が必要です。</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/section&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/main&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function formatPercent(value) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (isNaN(value)) return "-";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>return (value * 100).toFixed(1) + "%";</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function formatYen(value) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (isNaN(value)) return "-";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>return Math.round(value).toLocaleString("ja-JP") + " 円";</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function getSafetyPillClass(score) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (score === "A") return "pill pill-safe";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (score === "B") return "pill pill-caution";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>return "pill pill-danger";</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function buildResultHTML(data) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>income,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>fixedCost,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>variableCost,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>savings,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>fixedRatio,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>savingsRatio,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>playRatio,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>typeRank,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>message,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>nextStep,</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} = data;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>return `</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="result-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="result-tagline"&gt;いまの家計バランスのイメージ&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="${getSafetyPillClass(typeRank)}"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>安心度タイプ：${typeRank}</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="result-grid"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="metric"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="metric-label"&gt;毎月の手取り（目安）&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="metric-value"&gt;${formatYen(income)}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="metric-note"&gt;ご入力いただいた金額ベース&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="metric"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="metric-label"&gt;貯蓄率（つみたて＋貯金）&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="metric-value"&gt;${formatPercent(savingsRatio)}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="metric-note"&gt;目安：15〜20％を目標にできると安心&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="metric"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="metric-label"&gt;固定費の割合（住居＋固定費＋保険＋教育）&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="metric-value"&gt;${formatPercent(fixedRatio)}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="metric-note"&gt;目安：50〜60％以内だとゆとりが生まれやすい&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="metric"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="metric-label"&gt;自由費（レジャー等）の比率&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="metric-value"&gt;${formatPercent(playRatio)}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="metric-note"&gt;「楽しみ」が確保できているかの目安&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="result-message"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>${message}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="result-next"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>${nextStep}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function diagnose() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const income = Number(document.getElementById("income").value) || 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const housing = Number(document.getElementById("housing").value) || 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const utilities = Number(document.getElementById("utilities").value) || 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const insurance = Number(document.getElementById("insurance").value) || 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const education = Number(document.getElementById("education").value) || 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const living = Number(document.getElementById("living").value) || 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const play = Number(document.getElementById("play").value) || 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const savings = Number(document.getElementById("savings").value) || 0;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const resultArea = document.getElementById("result-area");</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!income || income &lt;= 0) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>resultArea.innerHTML =</p>
+<p class="p1"><span class="Apple-converted-space">          </span>'&lt;p class="section-help"&gt;まずは「世帯の毎月の手取り収入」を入力してください。&lt;/p&gt;';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const fixedCost = housing + utilities + insurance + education;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const variableCost = living + play;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const fixedRatio = fixedCost / income;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const savingsRatio = savings / income;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const playRatio = play / income;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>// 安心度タイプのざっくり判定（40代・晩産家庭イメージ）</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let typeRank = "B";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let message = "";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let nextStep = "";</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (savingsRatio &gt;= 0.18 &amp;&amp; fixedRatio &lt;= 0.6) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>typeRank = "A";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>message =</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"今のところ、家計の土台はしっかりしている印象です。貯蓄も固定費もバランスよく整えられていて、「安心して使えるお金」も確保しやすい状態と言えます。";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>nextStep =</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"次のステップは、「本当に価値ある支出」にお金を回していくこと。ご家族にとって大切な体験や時間に、安心して使える枠を少しずつ増やしていきましょう。";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} else if (savingsRatio &gt;= 0.1 &amp;&amp; fixedRatio &lt;= 0.7) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>typeRank = "B";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>message =</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"貯蓄もできていて、大きく崩れているわけではない家計バランスです。ただ、今後の教育費や老後を考えると「もう一歩、土台を整えておきたい」状態とも言えます。";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>nextStep =</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"住居費・保険・通信費などの固定費を少しだけ見直せると、貯蓄率15〜20％に近づきやすくなります。いきなり節約するのではなく、「何を優先したいか」を夫婦で話すところから始めてみましょう。";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>typeRank = "C";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>message =</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"今は「なんとなく回っているけれど、将来を考えると少し不安」という状態かもしれません。貯蓄率が低め、もしくは固定費が高めになっているサインがあります。";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>nextStep =</p>
+<p class="p1"><span class="Apple-converted-space">          </span>"まずは毎月の固定費（住居・保険・通信など）と貯蓄額のバランスを確認してみましょう。「どこを減らすか」ではなく、「どこにいくら残しておきたいか」を決めることで、家計の再出発がしやすくなります。";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const data = {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>income,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>fixedCost,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>variableCost,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>savings,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>fixedRatio,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>savingsRatio,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>playRatio,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>typeRank,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>message,</p>
+<p class="p1"><span class="Apple-converted-space">        </span>nextStep,</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>resultArea.innerHTML = buildResultHTML(data);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>document</p>
+<p class="p1"><span class="Apple-converted-space">      </span>.getElementById("kakei-form")</p>
+<p class="p1"><span class="Apple-converted-space">      </span>.addEventListener("submit", function (e) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>e.preventDefault();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>diagnose();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById("reset-btn").addEventListener("click", () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById("kakei-form").reset();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById("result-area").innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="section-help"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>数字を入力して「家計を診断する」を押すと、ここに結果が表示されます。</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="section-help"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>貯蓄率・固定費の割合・安心度タイプを、40代・晩産家庭の目線でやさしく見える化します。</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
