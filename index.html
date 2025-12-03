@@ -365,162 +365,85 @@
   </div>
 
   <script>
-    function formatPercent(value) {
-      if (isNaN(value)) return "-";
-      return (value * 100).toFixed(1) + "%";
-    }
+// ==============================
+// 家計診断ロジック（番号付き注釈入り）
+// ==============================
+function calculateKakei() {
 
-    function formatYen(value) {
-      if (isNaN(value)) return "-";
-      return Math.round(value).toLocaleString("ja-JP") + " 円";
-    }
+  // ▼ ① 入力値の取得
+  const income = Number(document.getElementById("income").value);
+  const rent   = Number(document.getElementById("rent").value);
+  const utility = Number(document.getElementById("utility").value);
+  const phone = Number(document.getElementById("phone").value);
+  const insurance = Number(document.getElementById("insurance").value);
+  const food = Number(document.getElementById("food").value);
+  const daily = Number(document.getElementById("daily").value);
+  const child = Number(document.getElementById("child").value);
+  const other = Number(document.getElementById("other").value);
 
-    function getSafetyPillClass(score) {
-      if (score === "A") return "pill pill-safe";
-      if (score === "B") return "pill pill-caution";
-      return "pill pill-danger";
-    }
+  // ▼ 入力チェック
+  if (!income) {
+    alert("手取り収入を入力してください");
+    return;
+  }
 
-    function buildResultHTML(data) {
-      const {
-        income,
-        fixedCost,
-        variableCost,
-        savings,
-        fixedRatio,
-        savingsRatio,
-        playRatio,
-        typeRank,
-        message,
-        nextStep,
-      } = data;
+  // ==============================
+  // ② 固定費の合計
+  // ==============================
+  const fixedCost =
+    rent       +   // ②-1
+    utility    +   // ②-2
+    phone      +   // ②-3
+    insurance;     // ②-4
 
-      return `
-        <div class="result-header">
-          <div>
-            <div class="result-tagline">いまの家計バランスのイメージ</div>
-          </div>
-          <div class="${getSafetyPillClass(typeRank)}">
-            安心度タイプ：${typeRank}
-          </div>
-        </div>
+  // ==============================
+  // ③ 自由費（変動費）の合計
+  // ==============================
+  const freeCost =
+    food   +     // ③-1
+    daily  +     // ③-2
+    child  +     // ③-3
+    other;       // ③-4
 
-        <div class="result-grid">
-          <div class="metric">
-            <div class="metric-label">毎月の手取り（目安）</div>
-            <div class="metric-value">${formatYen(income)}</div>
-            <div class="metric-note">ご入力いただいた金額ベース</div>
-          </div>
-          <div class="metric">
-            <div class="metric-label">貯蓄率（つみたて＋貯金）</div>
-            <div class="metric-value">${formatPercent(savingsRatio)}</div>
-            <div class="metric-note">目安：15〜20％を目標にできると安心</div>
-          </div>
-          <div class="metric">
-            <div class="metric-label">固定費の割合（住居＋固定費＋保険＋教育）</div>
-            <div class="metric-value">${formatPercent(fixedRatio)}</div>
-            <div class="metric-note">目安：50〜60％以内だとゆとりが生まれやすい</div>
-          </div>
-          <div class="metric">
-            <div class="metric-label">自由費（レジャー等）の比率</div>
-            <div class="metric-value">${formatPercent(playRatio)}</div>
-            <div class="metric-note">「楽しみ」が確保できているかの目安</div>
-          </div>
-        </div>
+  // ==============================
+  // ④ 貯蓄率の計算
+  // ==============================
+  const savingRate =
+    (1 - (fixedCost + freeCost) / income) * 100;   // ④-1
 
-        <div class="result-message">
-          ${message}
-        </div>
-        <div class="result-next">
-          ${nextStep}
-        </div>
-      `;
-    }
+  // ==============================
+  // ⑤ 結果の分類
+  // ==============================
+  let type = "";
+  let message = "";
 
-    function diagnose() {
-      const income = Number(document.getElementById("income").value) || 0;
-      const housing = Number(document.getElementById("housing").value) || 0;
-      const utilities = Number(document.getElementById("utilities").value) || 0;
-      const insurance = Number(document.getElementById("insurance").value) || 0;
-      const education = Number(document.getElementById("education").value) || 0;
-      const living = Number(document.getElementById("living").value) || 0;
-      const play = Number(document.getElementById("play").value) || 0;
-      const savings = Number(document.getElementById("savings").value) || 0;
+  if (savingRate < 5) {
+    type = "タイプD：現状維持が難しい家計";
+    message =
+      "毎月の支出がほぼ収入と同じ状況です。まずは固定費の見直しを優先すると改善しやすいです。";
+  } else if (savingRate < 10) {
+    type = "タイプC：あと少しで安定ゾーン";
+    message =
+      "大きな浪費はありませんが、変動費の使い方に揺れがあるかもしれません。見える化すると安心感が増えます。";
+  } else if (savingRate < 20) {
+    type = "タイプB：一般的に安定した家計";
+    message =
+      "バランスよく使えている家計です。教育費や将来の準備を少しずつ整えると、さらに安心が増えます。";
+  } else {
+    type = "タイプA：未来の安心がしっかり育つ家計";
+    message =
+      "お金の使い方がとても整っています！ 家族の価値観に合わせた支出で、ムリなく豊かさが続く状態です。";
+  }
 
-      const resultArea = document.getElementById("result-area");
+  // ==============================
+  // ⑥ 結果の出力
+  // ==============================
+  document.getElementById("result-type").textContent = type;
+  document.getElementById("result-saving").textContent =
+    `貯蓄率：${savingRate.toFixed(1)}%`;
+  document.getElementById("result-message").textContent = message;
 
-      if (!income || income <= 0) {
-        resultArea.innerHTML =
-          '<p class="section-help">まずは「世帯の毎月の手取り収入」を入力してください。</p>';
-        return;
-      }
-
-      const fixedCost = housing + utilities + insurance + education;
-      const variableCost = living + play;
-
-      const fixedRatio = fixedCost / income;
-      const savingsRatio = savings / income;
-      const playRatio = play / income;
-
-      // 安心度タイプのざっくり判定（40代・晩産家庭イメージ）
-      let typeRank = "B";
-      let message = "";
-      let nextStep = "";
-
-      if (savingsRatio >= 0.18 && fixedRatio <= 0.6) {
-        typeRank = "A";
-        message =
-          "今のところ、家計の土台はしっかりしている印象です。貯蓄も固定費もバランスよく整えられていて、「安心して使えるお金」も確保しやすい状態と言えます。";
-        nextStep =
-          "次のステップは、「本当に価値ある支出」にお金を回していくこと。ご家族にとって大切な体験や時間に、安心して使える枠を少しずつ増やしていきましょう。";
-      } else if (savingsRatio >= 0.1 && fixedRatio <= 0.7) {
-        typeRank = "B";
-        message =
-          "貯蓄もできていて、大きく崩れているわけではない家計バランスです。ただ、今後の教育費や老後を考えると「もう一歩、土台を整えておきたい」状態とも言えます。";
-        nextStep =
-          "住居費・保険・通信費などの固定費を少しだけ見直せると、貯蓄率15〜20％に近づきやすくなります。いきなり節約するのではなく、「何を優先したいか」を夫婦で話すところから始めてみましょう。";
-      } else {
-        typeRank = "C";
-        message =
-          "今は「なんとなく回っているけれど、将来を考えると少し不安」という状態かもしれません。貯蓄率が低め、もしくは固定費が高めになっているサインがあります。";
-        nextStep =
-          "まずは毎月の固定費（住居・保険・通信など）と貯蓄額のバランスを確認してみましょう。「どこを減らすか」ではなく、「どこにいくら残しておきたいか」を決めることで、家計の再出発がしやすくなります。";
-      }
-
-      const data = {
-        income,
-        fixedCost,
-        variableCost,
-        savings,
-        fixedRatio,
-        savingsRatio,
-        playRatio,
-        typeRank,
-        message,
-        nextStep,
-      };
-
-      resultArea.innerHTML = buildResultHTML(data);
-    }
-
-    document
-      .getElementById("kakei-form")
-      .addEventListener("submit", function (e) {
-        e.preventDefault();
-        diagnose();
-      });
-
-    document.getElementById("reset-btn").addEventListener("click", () => {
-      document.getElementById("kakei-form").reset();
-      document.getElementById("result-area").innerHTML = `
-        <p class="section-help">
-          数字を入力して「家計を診断する」を押すと、ここに結果が表示されます。
-        </p>
-        <p class="section-help">
-          貯蓄率・固定費の割合・安心度タイプを、40代・晩産家庭の目線でやさしく見える化します。
-        </p>
-      `;
-    });
+}
   </script>
 </body>
 </html>
