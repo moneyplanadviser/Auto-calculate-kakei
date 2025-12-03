@@ -780,89 +780,107 @@
   }
 
   // PDFダウンロード（新しいタブで開く）
-    // PDFダウンロード（日本語対応：HTMLレンダリング）
-  function downloadPDF() {
-    if (!lastResult) {
-      alert("先に家計を診断してください。");
-      return;
-    }
-    if (!window.jspdf) {
-      alert("PDFライブラリの読み込みに失敗しました。");
-      return;
-    }
+// PDFダウンロード（日本語対応：HTMLレンダリング）
+function downloadPDF() {
+  if (!lastResult) {
+    alert("先に家計を診断してください。");
+    return;
+  }
+  if (!window.jspdf) {
+    alert("PDFライブラリの読み込みに失敗しました。");
+    return;
+  }
 
-    const pdfContainer = document.getElementById("pdf-content");
+  // ① 一時的なPDF用コンテナを作成
+  const wrapper = document.createElement("div");
+  wrapper.style.position = "fixed";
+  wrapper.style.left = "0";
+  wrapper.style.top = "0";
+  wrapper.style.width = "595px";        // A4幅に合わせる
+  wrapper.style.background = "#ffffff";
+  wrapper.style.zIndex = "-1";
+  wrapper.style.opacity = "0.01";       // 画面にはほぼ見えない
+  wrapper.style.fontFamily = "'Noto Sans JP', system-ui, sans-serif";
+  wrapper.style.fontSize = "12px";
+  wrapper.style.lineHeight = "1.6";
 
-    // 表示用のテキストを組み立て
-    const savingUserText =
-      `${formatYen(lastResult.annualSavingUser)} 円／年（貯蓄率：${lastResult.savingRateUser}％）`;
-    const savingAokiText =
-      `${formatYen(lastResult.annualSavingAoki)} 円／年（貯蓄率：${lastResult.savingRateAoki}％）`;
+  // 表示用テキスト
+  const savingUserText =
+    `${formatYen(lastResult.annualSavingUser)} 円／年（貯蓄率：${lastResult.savingRateUser}％）`;
+  const savingAokiText =
+    `${formatYen(lastResult.annualSavingAoki)} 円／年（貯蓄率：${lastResult.savingRateAoki}％）`;
 
-    pdfContainer.innerHTML = `
-      <h2 style="font-size:18px; margin:0 0 10px;">
-        Family Money 家計かんたん診断 結果
-      </h2>
+  wrapper.innerHTML = `
+    <h2 style="font-size:18px; margin:0 0 10px;">
+      Family Money 家計かんたん診断 結果
+    </h2>
 
-      <p style="margin:0 0 6px;">
-        手取り収入（月）：${lastResult.income.toLocaleString()} 円
-      </p>
-      <p style="margin:0 0 12px;">
-        ボーナス（年間）：${lastResult.bonus.toLocaleString()} 円
-      </p>
+    <p style="margin:0 0 6px;">
+      手取り収入（月）：${lastResult.income.toLocaleString()} 円
+    </p>
+    <p style="margin:0 0 12px;">
+      ボーナス（年間）：${lastResult.bonus.toLocaleString()} 円
+    </p>
 
-      <h3 style="font-size:14px; margin:10px 0 4px;">■ あなたの家計（年間）</h3>
-      <p style="margin:0 0 4px;">
-        固定費 合計（月）：${lastResult.fixedCostUser.toLocaleString()} 円
-      </p>
-      <p style="margin:0 0 4px;">
-        自由費 合計（月）：${lastResult.freeCostUser.toLocaleString()} 円
-      </p>
-      <p style="margin:0 0 8px;">
-        年間の貯蓄額　　：${savingUserText}
-      </p>
+    <h3 style="font-size:14px; margin:10px 0 4px;">■ あなたの家計（年間）</h3>
+    <p style="margin:0 0 4px;">
+      固定費 合計（月）：${lastResult.fixedCostUser.toLocaleString()} 円
+    </p>
+    <p style="margin:0 0 4px;">
+      自由費 合計（月）：${lastResult.freeCostUser.toLocaleString()} 円
+    </p>
+    <p style="margin:0 0 8px;">
+      年間の貯蓄額　　：${savingUserText}
+    </p>
 
-      <h3 style="font-size:14px; margin:12px 0 4px;">■ 青木家モデル（同じ収入の場合・年間）</h3>
-      <p style="margin:0 0 4px;">
-        固定費 合計（月）：${lastResult.fixedCostAoki.toLocaleString()} 円
-      </p>
-      <p style="margin:0 0 4px;">
-        自由費 合計（月）：${lastResult.freeCostAoki.toLocaleString()} 円
-      </p>
-      <p style="margin:0 0 8px;">
-        年間の貯蓄額　　：${savingAokiText}
-      </p>
+    <h3 style="font-size:14px; margin:12px 0 4px;">■ 青木家モデル（同じ収入の場合・年間）</h3>
+    <p style="margin:0 0 4px;">
+      固定費 合計（月）：${lastResult.fixedCostAoki.toLocaleString()} 円
+    </p>
+    <p style="margin:0 0 4px;">
+      自由費 合計（月）：${lastResult.freeCostAoki.toLocaleString()} 円
+    </p>
+    <p style="margin:0 0 8px;">
+      年間の貯蓄額　　：${savingAokiText}
+    </p>
 
-      <h3 style="font-size:14px; margin:12px 0 4px;">■ 家計タイプ</h3>
-      <p style="margin:0 0 6px;">
-        ${lastResult.type}
-      </p>
-      <p style="margin:0;">
-        コメント：${lastResult.message}
-      </p>
-    `;
+    <h3 style="font-size:14px; margin:12px 0 4px;">■ 家計タイプ</h3>
+    <p style="margin:0 0 6px;">
+      ${lastResult.type}
+    </p>
+    <p style="margin:0;">
+      コメント：${lastResult.message}
+    </p>
+  `;
 
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({
-      orientation: "portrait",
-      unit: "pt",
-      format: "a4"
+  document.body.appendChild(wrapper);
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({
+    orientation: "portrait",
+    unit: "pt",
+    format: "a4"
+  });
+
+  try {
+    doc.html(wrapper, {
+      callback: function (doc) {
+        // ② DOM片付け
+        document.body.removeChild(wrapper);
+        // ③ 新しいタブでPDFを開く
+        const url = doc.output("bloburl");
+        window.open(url, "_blank");
+      },
+      x: 40,
+      y: 40,
+      width: 515
     });
-
-    try {
-      doc.html(pdfContainer, {
-        callback: function (doc) {
-          const url = doc.output("bloburl");
-          window.open(url, "_blank");
-        },
-        x: 40,
-        y: 40,
-        width: 515
-      });
-    } catch (e) {
-      console.error(e);
-      alert("PDF生成中にエラーが発生しました。");
-    }
+  } catch (e) {
+    console.error(e);
+    document.body.removeChild(wrapper);
+    alert("PDF生成中にエラーが発生しました。");
+  }
+}
 
 
     doc.html(pdfContainer, {
@@ -952,13 +970,6 @@
     alert("結果のメール送信を受け付けました。（※ Apps Script側の設定が必要です）");
   }
 </script>
-
-  <!-- PDF出力用の隠しエリア（画面には表示されません） -->
-  <div id="pdf-content"
-       style="position:absolute; left:-9999px; top:-9999px; width:595px;
-              font-family:'Noto Sans JP', system-ui, sans-serif;
-              font-size:12px; line-height:1.6;">
-  </div>
   
 </body>
 </html>
