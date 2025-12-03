@@ -777,6 +777,7 @@
   }
 
   // PDFダウンロード（新しいタブで開く）
+    // PDFダウンロード（日本語対応：HTMLレンダリング）
   function downloadPDF() {
     if (!lastResult) {
       alert("先に家計を診断してください。");
@@ -787,39 +788,119 @@
       return;
     }
 
+    const pdfContainer = document.getElementById("pdf-content");
+
+    // 表示用のテキストを組み立て
+    const savingUserText =
+      `${formatYen(lastResult.annualSavingUser)} 円／年（貯蓄率：${lastResult.savingRateUser}％）`;
+    const savingAokiText =
+      `${formatYen(lastResult.annualSavingAoki)} 円／年（貯蓄率：${lastResult.savingRateAoki}％）`;
+
+    pdfContainer.innerHTML = `
+      <h2 style="font-size:18px; margin:0 0 10px;">
+        Family Money 家計かんたん診断 結果
+      </h2>
+
+      <p style="margin:0 0 6px;">
+        手取り収入（月）：${lastResult.income.toLocaleString()} 円
+      </p>
+      <p style="margin:0 0 12px;">
+        ボーナス（年間）：${lastResult.bonus.toLocaleString()} 円
+      </p>
+
+      <h3 style="font-size:14px; margin:10px 0 4px;">■ あなたの家計（年間）</h3>
+      <p style="margin:0 0 4px;">
+        固定費 合計（月）：${lastResult.fixedCostUser.toLocaleString()} 円
+      </p>
+      <p style="margin:0 0 4px;">
+        自由費 合計（月）：${lastResult.freeCostUser.toLocaleString()} 円
+      </p>
+      <p style="margin:0 0 8px;">
+        年間の貯蓄額　　：${savingUserText}
+      </p>
+
+      <h3 style="font-size:14px; margin:12px 0 4px;">■ 青木家モデル（同じ収入の場合・年間）</h3>
+      <p style="margin:0 0 4px;">
+        固定費 合計（月）：${lastResult.fixedCostAoki.toLocaleString()} 円
+      </p>
+      <p style="margin:0 0 4px;">
+        自由費 合計（月）：${lastResult.freeCostAoki.toLocaleString()} 円
+      </p>
+      <p style="margin:0 0 8px;">
+        年間の貯蓄額　　：${savingAokiText}
+      </p>
+
+      <h3 style="font-size:14px; margin:12px 0 4px;">■ 家計タイプ</h3>
+      <p style="margin:0 0 6px;">
+        ${lastResult.type}
+      </p>
+      <p style="margin:0;">
+        コメント：${lastResult.message}
+      </p>
+    `;
+
     const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+    const doc = new jsPDF({
+      orientation: "portrait",
+      unit: "pt",
+      format: "a4"
+    });
 
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(14);
-    doc.text("Family Money 家計かんたん診断 結果", 10, 20);
-
-    doc.setFontSize(11);
-    let y = 35;
-    doc.text(`手取り収入（月）：${lastResult.income.toLocaleString()} 円`, 10, y); y += 8;
-    doc.text(`ボーナス（年間）：${lastResult.bonus.toLocaleString()} 円`, 10, y); y += 8;
-    doc.text(`年間の貯蓄額     ：${formatYen(lastResult.annualSavingUser)} 円`, 10, y); y += 6;
-    doc.text(`（貯蓄率の目安   ：${lastResult.savingRateUser} %）`, 10, y); y += 10;
-
-    doc.text("[あなたの家計（年間）]", 10, y); y += 7;
-    doc.text(` 固定費 合計（月）      ：${lastResult.fixedCostUser.toLocaleString()} 円`, 10, y); y += 6;
-    doc.text(` 自由費 合計（月）      ：${lastResult.freeCostUser.toLocaleString()} 円`, 10, y); y += 10;
-
-    doc.text("[青木家モデル（同じ収入の場合・年間）]", 10, y); y += 7;
-    doc.text(` 固定費 合計（月）      ：${lastResult.fixedCostAoki.toLocaleString()} 円`, 10, y); y += 6;
-    doc.text(` 自由費 合計（月）      ：${lastResult.freeCostAoki.toLocaleString()} 円`, 10, y); y += 6;
-    doc.text(` 年間の貯蓄額           ：${formatYen(lastResult.annualSavingAoki)} 円`, 10, y); y += 6;
-    doc.text(`（貯蓄率の目安         ：${lastResult.savingRateAoki} %）`, 10, y); y += 10;
-
-    doc.text(`あなたの家計タイプ：${lastResult.type}`, 10, y); y += 8;
-
-    const msgLines = doc.splitTextToSize(`コメント：${lastResult.message}`, 180);
-    doc.text(msgLines, 10, y);
-
-    // 新しいタブでPDFを開く
-    const pdfBlobUrl = doc.output("bloburl");
-    window.open(pdfBlobUrl, "_blank");
+    doc.html(pdfContainer, {
+      callback: function (doc) {
+        // 新しいタブでPDFを開く
+        const url = doc.output("bloburl");
+        window.open(url, "_blank");
+      },
+      x: 40,
+      y: 40,
+      width: 515  // A4の横幅(約595pt)から左右マージン40ptずつ
+    });
   }
+
+  // function downloadPDF() {
+  //   if (!lastResult) {
+  //     alert("先に家計を診断してください。");
+  //     return;
+  //   }
+  //   if (!window.jspdf) {
+  //     alert("PDFライブラリの読み込みに失敗しました。");
+  //     return;
+  //   }
+
+  //   const { jsPDF } = window.jspdf;
+  //   const doc = new jsPDF();
+
+  //   doc.setFont("helvetica", "normal");
+  //   doc.setFontSize(14);
+  //   doc.text("Family Money 家計かんたん診断 結果", 10, 20);
+
+  //   doc.setFontSize(11);
+  //   let y = 35;
+  //   doc.text(`手取り収入（月）：${lastResult.income.toLocaleString()} 円`, 10, y); y += 8;
+  //   doc.text(`ボーナス（年間）：${lastResult.bonus.toLocaleString()} 円`, 10, y); y += 8;
+  //   doc.text(`年間の貯蓄額     ：${formatYen(lastResult.annualSavingUser)} 円`, 10, y); y += 6;
+  //   doc.text(`（貯蓄率の目安   ：${lastResult.savingRateUser} %）`, 10, y); y += 10;
+
+  //   doc.text("[あなたの家計（年間）]", 10, y); y += 7;
+  //   doc.text(` 固定費 合計（月）      ：${lastResult.fixedCostUser.toLocaleString()} 円`, 10, y); y += 6;
+  //   doc.text(` 自由費 合計（月）      ：${lastResult.freeCostUser.toLocaleString()} 円`, 10, y); y += 10;
+
+  //   doc.text("[青木家モデル（同じ収入の場合・年間）]", 10, y); y += 7;
+  //   doc.text(` 固定費 合計（月）      ：${lastResult.fixedCostAoki.toLocaleString()} 円`, 10, y); y += 6;
+  //   doc.text(` 自由費 合計（月）      ：${lastResult.freeCostAoki.toLocaleString()} 円`, 10, y); y += 6;
+  //   doc.text(` 年間の貯蓄額           ：${formatYen(lastResult.annualSavingAoki)} 円`, 10, y); y += 6;
+  //   doc.text(`（貯蓄率の目安         ：${lastResult.savingRateAoki} %）`, 10, y); y += 10;
+
+  //   doc.text(`あなたの家計タイプ：${lastResult.type}`, 10, y); y += 8;
+
+  //   const msgLines = doc.splitTextToSize(`コメント：${lastResult.message}`, 180);
+  //   doc.text(msgLines, 10, y);
+
+  //   // 新しいタブでPDFを開く
+  //   const pdfBlobUrl = doc.output("bloburl");
+  //   window.open(pdfBlobUrl, "_blank");
+  // }
 
   // メール送信
   function sendResultByEmail() {
@@ -853,5 +934,12 @@
   }
 </script>
 
+  <!-- PDF出力用の隠しエリア（画面には表示されません） -->
+  <div id="pdf-content"
+       style="position:absolute; left:-9999px; top:-9999px; width:595px;
+              font-family:'Noto Sans JP', system-ui, sans-serif;
+              font-size:12px; line-height:1.6;">
+  </div>
+  
 </body>
 </html>
