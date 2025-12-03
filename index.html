@@ -18,7 +18,7 @@
     }
 
     h1 {
-      font-size: 22px;
+      font-size: 24px;
       text-align: center;
       margin-bottom: 8px;
     }
@@ -30,17 +30,21 @@
       margin-bottom: 20px;
     }
 
-    .container {
-      max-width: 900px;
+    .layout {
+      max-width: 960px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.9fr);
       gap: 16px;
+      align-items: flex-start;
     }
 
     @media (max-width: 768px) {
-      .container {
+      .layout {
         grid-template-columns: minmax(0, 1fr);
+      }
+      .result-card {
+        position: static !important;
       }
     }
 
@@ -48,12 +52,12 @@
       background: #fff;
       padding: 20px;
       border-radius: 16px;
-      box-shadow: 0px 6px 14px rgba(0,0,0,0.06);
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
       border: 1px solid #eee0cf;
     }
 
-    .card-title {
-      font-size: 15px;
+    .section-title {
+      font-size: 16px;
       font-weight: 700;
       margin-bottom: 8px;
       display: flex;
@@ -105,10 +109,42 @@
       gap: 10px;
     }
 
+    @media (max-width: 600px) {
+      .grid-2 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .group-box {
+      margin-top: 16px;
+      padding: 12px 12px 10px;
+      border-radius: 12px;
+      border: 1px dashed #e0d3c2;
+      background: #fdf9f3;
+    }
+
+    .group-title {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .group-tag {
+      font-size: 11px;
+      padding: 1px 7px;
+      border-radius: 999px;
+      background: #f7e6cf;
+      color: #a16b2f;
+      font-weight: 600;
+    }
+
     button {
       width: 100%;
-      margin-top: 14px;
-      padding: 10px;
+      margin-top: 16px;
+      padding: 12px;
       border: none;
       border-radius: 10px;
       font-size: 14px;
@@ -126,14 +162,10 @@
       color: #444;
     }
 
-    .btn-sub {
-      width: auto;
-      padding: 8px 14px;
-      font-size: 13px;
-      background: #fff;
-      border: 1px solid #e0d3c2;
-      color: #555;
-      border-radius: 999px;
+    /* 右側：結果カード */
+    .result-card {
+      position: sticky;
+      top: 16px;
     }
 
     .result-header {
@@ -175,7 +207,7 @@
     .saving-rate {
       font-size: 22px;
       font-weight: 700;
-      margin: 6px 0 4px;
+      margin: 4px 0 4px;
     }
 
     .rate-good { color: #2e8b57; }
@@ -185,15 +217,60 @@
     .metric-note {
       font-size: 11px;
       color: #777;
+      margin-bottom: 8px;
+    }
+
+    .compare-box {
+      margin-top: 8px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: #fff;
+      border: 1px solid #eee0cf;
+      font-size: 12px;
+    }
+
+    .compare-row {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 1fr;
+      gap: 6px;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .compare-row.header {
+      font-weight: 700;
+      border-bottom: 1px solid #f0e3d5;
+      padding-bottom: 3px;
+      margin-bottom: 6px;
+    }
+
+    .compare-label {
+      color: #555;
+    }
+
+    .compare-your {
+      font-weight: 700;
+    }
+
+    .compare-aoki {
+      font-weight: 700;
+      color: #6e5b3a;
+      font-size: 11px;
+    }
+
+    .result-title {
+      font-weight: 600;
+      margin-top: 10px;
+      font-size: 14px;
     }
 
     .message {
-      margin-top: 10px;
+      margin-top: 6px;
       font-size: 13px;
     }
 
     .small-note {
-      margin-top: 10px;
+      margin-top: 8px;
       font-size: 11px;
       color: #888;
     }
@@ -204,17 +281,28 @@
       gap: 8px;
       margin-top: 10px;
     }
+
+    .btn-sub {
+      width: auto;
+      padding: 8px 14px;
+      font-size: 13px;
+      background: #fff;
+      border: 1px solid #e0d3c2;
+      color: #555;
+      border-radius: 999px;
+      cursor: pointer;
+    }
   </style>
 </head>
 
 <body>
   <h1>Family Money｜家計かんたん診断</h1>
-  <p class="sub-title">40代・晩産夫婦向け。「いまの家計バランス」と「貯蓄率」をやさしく見える化します。</p>
+  <p class="sub-title">40代・晩産夫婦向け。「いまの家計バランス」と「青木家の例」を同じ収入で比較できます。</p>
 
-  <div class="container">
-    <!-- 入力カード -->
+  <div class="layout">
+    <!-- 左：入力カード -->
     <div class="card">
-      <div class="card-title">
+      <div class="section-title">
         毎月の家計をざっくり入力
         <span class="badge">1〜2分でOK</span>
       </div>
@@ -226,47 +314,62 @@
       <label>① 手取り収入（月）</label>
       <input id="income" type="number" placeholder="例：350000">
 
-      <div class="grid-2">
-        <div>
-          <label>② 家賃 / 住宅費</label>
-          <input id="rent" type="number">
+      <label>①-2 ボーナス（年間・手取り）</label>
+      <input id="bonus" type="number" placeholder="例：400000">
+
+      <!-- 固定費グループ -->
+      <div class="group-box">
+        <div class="group-title">
+          必要なお金（固定費）
+          <span class="group-tag">家を守るための支出</span>
         </div>
-        <div>
-          <label>③ 光熱費</label>
-          <input id="utility" type="number">
+        <div class="grid-2">
+          <div>
+            <label>② 家賃 / 住宅費</label>
+            <input id="rent" type="number">
+          </div>
+          <div>
+            <label>③ 光熱費</label>
+            <input id="utility" type="number">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div>
+            <label>④ 通信費（スマホ・ネット）</label>
+            <input id="phone" type="number">
+          </div>
+          <div>
+            <label>⑤ 保険料</label>
+            <input id="insurance" type="number">
+          </div>
         </div>
       </div>
 
-      <div class="grid-2">
-        <div>
-          <label>④ 通信費（スマホ・ネット）</label>
-          <input id="phone" type="number">
+      <!-- 変動費グループ -->
+      <div class="group-box">
+        <div class="group-title">
+          自由に使うお金（変動費）
+          <span class="group-tag">暮らしを彩る支出</span>
         </div>
-        <div>
-          <label>⑤ 保険料</label>
-          <input id="insurance" type="number">
+        <div class="grid-2">
+          <div>
+            <label>⑥ 食費</label>
+            <input id="food" type="number">
+          </div>
+          <div>
+            <label>⑦ 日用品</label>
+            <input id="daily" type="number">
+          </div>
         </div>
-      </div>
-
-      <div class="grid-2">
-        <div>
-          <label>⑥ 食費</label>
-          <input id="food" type="number">
-        </div>
-        <div>
-          <label>⑦ 日用品</label>
-          <input id="daily" type="number">
-        </div>
-      </div>
-
-      <div class="grid-2">
-        <div>
-          <label>⑧ 子ども費</label>
-          <input id="child" type="number">
-        </div>
-        <div>
-          <label>⑨ その他の支出</label>
-          <input id="other" type="number">
+        <div class="grid-2">
+          <div>
+            <label>⑧ 子ども費</label>
+            <input id="child" type="number">
+          </div>
+          <div>
+            <label>⑨ その他の支出</label>
+            <input id="other" type="number">
+          </div>
         </div>
       </div>
 
@@ -274,10 +377,10 @@
       <button class="btn-reset" onclick="resetForm()">リセット</button>
     </div>
 
-    <!-- 結果カード -->
-    <div class="card">
-      <div class="card-title">
-        診断結果
+    <!-- 右：結果カード -->
+    <div class="card result-card">
+      <div class="section-title">
+        家計診断結果
         <span class="badge">Family Money視点</span>
       </div>
 
@@ -287,9 +390,23 @@
       </div>
 
       <div id="result-saving" class="saving-rate">― %</div>
-      <div class="metric-note" id="saving-note">貯蓄率：診断後に表示されます。</div>
+      <div id="saving-note" class="metric-note">貯蓄率：診断後に表示されます。（年間ベース）</div>
 
-      <div id="result-type" class="message" style="font-weight:600; margin-top:12px;">
+      <!-- 比較ボックス：あなた vs 青木家 -->
+      <div class="compare-box">
+        <div class="compare-row header">
+          <span></span>
+          <span>あなた</span>
+          <span>青木家の例</span>
+        </div>
+        <div class="compare-row">
+          <span class="compare-label">貯蓄率（年間ベース）</span>
+          <span id="your-rate" class="compare-your">― %</span>
+          <span id="aoki-rate" class="compare-aoki">― %（同じ収入で計算）</span>
+        </div>
+      </div>
+
+      <div id="result-type" class="result-title">
         「家計を診断する」ボタンを押すと結果がここに表示されます。
       </div>
       <div id="result-message" class="message"></div>
@@ -300,19 +417,32 @@
       </div>
 
       <p class="small-note">
-        ※ メール送信は外部サービス（Google Apps Scriptなど）と連携して動きます。<br>
-        ※ このページでは、送信先URLを差し替えるだけで使える形のサンプルになっています。
+        ※ 「青木家の例」は、同じ手取り収入・ボーナスを前提にしたモデル家計です。<br>
+        ※ メール送信は外部サービス（Google Apps Scriptなど）と連携して動きます。
       </p>
     </div>
   </div>
 
 <script>
-  // 診断結果を保存しておくグローバル変数
+  // 診断結果を保存しておく（PDF・メール用）
   let lastResult = null;
+
+  // 青木家モデル（毎月の固定金額）
+  const aokiBase = {
+    rent:      50000, // 家賃
+    utility:   15000, // 光熱費
+    phone:      3000, // 通信費
+    insurance:  5000, // 保険
+    food:      70000, // 食費
+    daily:     15000, // 日用品
+    child:     10000, // 子ども費
+    other:     50000  // その他
+  };
 
   // 家計診断ロジック
   function calculateKakei() {
     const income    = Number(document.getElementById("income").value);
+    const bonus     = Number(document.getElementById("bonus").value) || 0;
     const rent      = Number(document.getElementById("rent").value);
     const utility   = Number(document.getElementById("utility").value);
     const phone     = Number(document.getElementById("phone").value);
@@ -327,59 +457,94 @@
       return;
     }
 
-    // ② 固定費の合計（コメント番号つき）
-    const fixedCost =
+    // 年間収入（ボーナス込み）
+    const annualIncome = income * 12 + bonus;
+
+    // ==============================
+    // ② 固定費の合計（あなたの家計：月）
+    // ==============================
+    const fixedCostUser =
       rent       +   // ②-1 家賃
       utility    +   // ②-2 光熱費
       phone      +   // ②-3 通信費
       insurance;     // ②-4 保険料
 
-    // ③ 自由費（変動費）の合計
-    const freeCost =
+    // ==============================
+    // ③ 自由費の合計（あなたの家計：月）
+    // ==============================
+    const freeCostUser =
       food   +   // ③-1 食費
       daily  +   // ③-2 日用品
       child  +   // ③-3 子ども費
       other;     // ③-4 その他
 
-    // ④ 貯蓄率 = 1 − (固定費＋自由費) ÷ 収入
-    const savingRate = (1 - (fixedCost + freeCost) / income) * 100;
+    const monthlyTotalUser = fixedCostUser + freeCostUser;
+    const annualExpenseUser = monthlyTotalUser * 12;
 
-    // ⑤ 結果の分類
+    // ==============================
+    // ④ 貯蓄率（あなたの家計：年間ベース）
+    // ==============================
+    const savingRateUser = (annualIncome - annualExpenseUser) / annualIncome * 100;
+
+    // ==============================
+    // ⑤ 青木家モデルの計算（毎月の固定金額を使用）
+    // ==============================
+    const fixedCostAoki =
+      aokiBase.rent +
+      aokiBase.utility +
+      aokiBase.phone +
+      aokiBase.insurance;
+
+    const freeCostAoki =
+      aokiBase.food +
+      aokiBase.daily +
+      aokiBase.child +
+      aokiBase.other;
+
+    const monthlyTotalAoki = fixedCostAoki + freeCostAoki;
+    const annualExpenseAoki = monthlyTotalAoki * 12;
+
+    const savingRateAoki = (annualIncome - annualExpenseAoki) / annualIncome * 100;
+
+    // ==============================
+    // ⑥ あなたの家計タイプ分類（年間ベース）
+    // ==============================
     let type = "";
     let message = "";
     let pillClass = "pill";
     let savingNote = "";
 
-    if (savingRate < 5) {
+    if (savingRateUser < 5) {
       type = "タイプD：現状維持が難しい家計";
-      message = "毎月の支出がほぼ収入と同じ状況です。まずは固定費（家賃・保険・通信など）の見直しを優先すると、改善の手応えが得られやすくなります。";
+      message = "毎月とボーナスを合わせても、ほとんど貯まっていない状態かもしれません。まずは固定費（家賃・保険・通信など）の見直しから着手すると、改善の手応えが得られやすくなります。";
       pillClass += " pill-red";
-      savingNote = "貯蓄率5％未満。まずは「減らす」よりも、固定費の整理から着手するのがおすすめです。";
-    } else if (savingRate < 10) {
+      savingNote = "年間の貯蓄率5％未満。まずは「減らす」よりも、固定費の整理から着手するのがおすすめです。";
+    } else if (savingRateUser < 10) {
       type = "タイプC：あと少しで安定ゾーン";
-      message = "大きな浪費はありませんが、変動費の使い方に揺れがあるかもしれません。家計の“見える化”をすると、安心感とコントロール感が高まりやすくなります。";
+      message = "大きな浪費はありませんが、ボーナスの使い方や、変動費のゆらぎで貯蓄が増えにくい状態かもしれません。家計の“見える化”で、安心感とコントロール感が高まりやすくなります。";
       pillClass += " pill-yellow";
-      savingNote = "貯蓄率5〜10％台。無理な節約よりも、支出の「優先順位づけ」を意識すると一歩前に進めます。";
-    } else if (savingRate < 20) {
+      savingNote = "年間の貯蓄率5〜10％台。無理な節約よりも、支出の「優先順位づけ」を意識すると一歩前に進めます。";
+    } else if (savingRateUser < 20) {
       type = "タイプB：一般的に安定した家計";
-      message = "バランスよく使えている家計です。教育費や将来の準備を少しずつ整えることで、「安心して使えるお金」の枠がよりはっきりしていきます。";
+      message = "ボーナスも含めて、バランスよく貯められている家計です。教育費や将来の準備を少しずつ整えることで、「安心して使えるお金」の枠がよりはっきりしていきます。";
       pillClass += " pill-yellow";
-      savingNote = "貯蓄率10〜20％台。教育費や老後資金など、目的別に積み立てを分けると、さらに安心が増えていきます。";
+      savingNote = "年間の貯蓄率10〜20％台。教育費や老後資金など、目的別に積み立てを分けると、さらに安心が増えていきます。";
     } else {
       type = "タイプA：未来の安心がしっかり育つ家計";
-      message = "お金の使い方がとても整っています。ご家族の価値観に合う支出を選びながら、「じんわりうれしい消費」にお金を回していける状態です。";
+      message = "ボーナスも含めて、お金の使い方がとても整っています。ご家族の価値観に合う支出を選びながら、「じんわりうれしい消費」にお金を回していける状態です。";
       pillClass += " pill-green";
-      savingNote = "貯蓄率20％以上。今後は「どう貯めるか」以上に「どう使うか」を整えることで、心の豊かさも育っていきます。";
+      savingNote = "年間の貯蓄率20％以上。今後は「どう貯めるか」以上に「どう使うか」を整えることで、心の豊かさも育っていきます。";
     }
 
-    // ⑥ 画面への反映
+    // ==============================
+    // ⑦ 画面への反映
+    // ==============================
     const rateEl = document.getElementById("result-saving");
-    rateEl.textContent = `${savingRate.toFixed(1)} %`;
-    rateEl.className = "saving-rate"; // 一旦リセット
-
-    if (savingRate < 5) {
+    rateEl.textContent = `${savingRateUser.toFixed(1)} %`;
+    rateEl.className = "saving-rate"; // リセット
+    if (savingRateUser < 5) {
       rateEl.classList.add("rate-bad");
-    } else if (savingRate < 20) {
+    } else if (savingRateUser < 20) {
       rateEl.classList.add("rate-mid");
     } else {
       rateEl.classList.add("rate-good");
@@ -391,16 +556,27 @@
 
     const pillEl = document.getElementById("pill");
     pillEl.className = pillClass;
-    pillEl.textContent = `貯蓄率の目安：${savingRate.toFixed(1)}%`;
+    pillEl.textContent = `貯蓄率の目安：${savingRateUser.toFixed(1)}%（年間）`;
 
-    // 後でPDFやメール送信に使うために保存
+    // 比較表示
+    document.getElementById("your-rate").textContent =
+      `${savingRateUser.toFixed(1)} %`;
+    document.getElementById("aoki-rate").textContent =
+      `${savingRateAoki.toFixed(1)} %（同じ収入で計算）`;
+
+    // PDF/メール用に保存
     lastResult = {
       income,
-      fixedCost,
-      freeCost,
-      savingRate: savingRate.toFixed(1),
+      bonus,
+      annualIncome,
+      fixedCostUser,
+      freeCostUser,
+      savingRateUser: savingRateUser.toFixed(1),
+      fixedCostAoki,
+      freeCostAoki,
+      savingRateAoki: savingRateAoki.toFixed(1),
       type,
-      message,
+      message
     };
   }
 
@@ -409,12 +585,14 @@
     document.querySelectorAll("input").forEach(i => i.value = "");
     document.getElementById("result-saving").textContent = "― %";
     document.getElementById("result-saving").className = "saving-rate";
-    document.getElementById("saving-note").textContent = "貯蓄率：診断後に表示されます。";
+    document.getElementById("saving-note").textContent = "貯蓄率：診断後に表示されます。（年間ベース）";
     document.getElementById("result-type").textContent = "「家計を診断する」ボタンを押すと結果がここに表示されます。";
     document.getElementById("result-message").textContent = "";
     const pillEl = document.getElementById("pill");
     pillEl.className = "pill";
     pillEl.textContent = "診断前";
+    document.getElementById("your-rate").textContent = "― %";
+    document.getElementById("aoki-rate").textContent = "― %（同じ収入で計算）";
     lastResult = null;
   }
 
@@ -428,6 +606,7 @@
       alert("PDFライブラリの読み込みに失敗しました。");
       return;
     }
+
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
@@ -438,11 +617,19 @@
     doc.setFontSize(11);
     let y = 35;
     doc.text(`手取り収入（月）：${lastResult.income.toLocaleString()} 円`, 10, y); y += 8;
-    doc.text(`固定費 合計      ：${lastResult.fixedCost.toLocaleString()} 円`, 10, y); y += 8;
-    doc.text(`自由費 合計      ：${lastResult.freeCost.toLocaleString()} 円`, 10, y); y += 8;
-    doc.text(`貯蓄率            ：${lastResult.savingRate} %`, 10, y); y += 10;
+    doc.text(`ボーナス（年間）：${lastResult.bonus.toLocaleString()} 円`, 10, y); y += 8;
+    doc.text(`年間ベース貯蓄率 ：${lastResult.savingRateUser} %`, 10, y); y += 10;
 
-    doc.text(`タイプ：${lastResult.type}`, 10, y); y += 8;
+    doc.text("[あなたの家計（年間）]", 10, y); y += 7;
+    doc.text(` 固定費 合計（月）      ：${lastResult.fixedCostUser.toLocaleString()} 円`, 10, y); y += 6;
+    doc.text(` 自由費 合計（月）      ：${lastResult.freeCostUser.toLocaleString()} 円`, 10, y); y += 10;
+
+    doc.text("[青木家モデル（同じ収入の場合・年間）]", 10, y); y += 7;
+    doc.text(` 固定費 合計（月）      ：${lastResult.fixedCostAoki.toLocaleString()} 円`, 10, y); y += 6;
+    doc.text(` 自由費 合計（月）      ：${lastResult.freeCostAoki.toLocaleString()} 円`, 10, y); y += 6;
+    doc.text(` 貯蓄率（年間）          ：${lastResult.savingRateAoki} %`, 10, y); y += 10;
+
+    doc.text(`あなたの家計タイプ：${lastResult.type}`, 10, y); y += 8;
 
     const msgLines = doc.splitTextToSize(`コメント：${lastResult.message}`, 180);
     doc.text(msgLines, 10, y);
@@ -450,7 +637,7 @@
     doc.save("familymoney-kakei-result.pdf");
   }
 
-  // メール送信（Apps Scriptなどと連携する前提のたたき台）
+  // メール送信（Apps Scriptなどと連携する前提）
   function sendResultByEmail() {
     const email = document.getElementById("email").value.trim();
 
@@ -466,20 +653,18 @@
     // ▼ ここをあなたの Apps Script WebアプリURL に差し替える
     const ENDPOINT_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
 
-    // 送信データ
     const payload = {
       email,
       result: lastResult,
       source: "familymoney-kakei-check"
     };
 
-    // 簡易版（実際には、Apps Script側で doPost → Gmail送信の実装が必要）
     fetch(ENDPOINT_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
-      mode: "no-cors" // 応答は見ない前提
-    }).catch(()=>{}); // エラーは握りつぶし
+      mode: "no-cors"
+    }).catch(()=>{});
 
     alert("結果のメール送信を受け付けました。（※ Apps Script側の設定が必要です）");
   }
