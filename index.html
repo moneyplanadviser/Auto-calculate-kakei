@@ -3,368 +3,135 @@
 <head>
   <meta charset="UTF-8" />
   <title>Family Money｜家計かんたん診断</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
-    :root {
-      --bg: #f8f5f0;
-      --card: #ffffff;
-      --accent: #c89f6c;
-      --accent-soft: #f3e3cf;
-      --text-main: #333333;
-      --text-sub: #666666;
-      --danger: #d46a6a;
-      --safe: #4d9b6b;
-      --border: #e0d6c7;
-      --radius-lg: 18px;
-      --radius-sm: 10px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
     body {
-      margin: 0;
-      padding: 16px;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-        "ヒラギノ角ゴ ProN", "Hiragino Kaku Gothic ProN", "Yu Gothic",
-        "游ゴシック", "Noto Sans JP", sans-serif;
-      background: var(--bg);
-      color: var(--text-main);
-    }
-
-    .app {
-      max-width: 960px;
-      margin: 0 auto;
-    }
-
-    .hero {
-      margin-bottom: 16px;
-    }
-
-    .hero-title {
-      font-size: 1.6rem;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .hero-sub {
-      font-size: 0.95rem;
-      color: var(--text-sub);
+      font-family: "Noto Sans JP", sans-serif;
+      background: #faf8f5;
+      padding: 24px;
       line-height: 1.6;
+      color: #333;
     }
 
-    .cards {
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-      gap: 16px;
+    h1 {
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 24px;
     }
 
-    @media (max-width: 768px) {
-      .cards {
-        grid-template-columns: minmax(0, 1fr);
-      }
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
     }
 
-    .card {
-      background: var(--card);
-      border-radius: var(--radius-lg);
-      padding: 16px 18px 18px;
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.04);
-      border: 1px solid var(--border);
-    }
-
-    .card-title {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .badge {
-      font-size: 0.72rem;
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: var(--accent);
-      font-weight: 600;
-    }
-
-    .section-help {
-      font-size: 0.8rem;
-      color: var(--text-sub);
-      margin-bottom: 10px;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: 10px;
-    }
-
-    .field {
-      margin-bottom: 10px;
-    }
-
-    .field label {
+    label {
+      font-weight: bold;
+      margin-top: 16px;
       display: block;
-      font-size: 0.8rem;
-      margin-bottom: 4px;
-      color: var(--text-sub);
     }
 
-    .field input {
+    input {
       width: 100%;
-      padding: 7px 8px;
-      font-size: 0.9rem;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      background: #fcfbf8;
-    }
-
-    .field input:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 2px rgba(200, 159, 108, 0.18);
-      background: #ffffff;
-    }
-
-    .input-suffix {
-      font-size: 0.8rem;
-      color: var(--text-sub);
-      margin-left: 2px;
-    }
-
-    .btn-row {
-      margin-top: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
+      padding: 10px;
+      margin-top: 4px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 16px;
     }
 
     button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px;
       border: none;
-      border-radius: 999px;
-      padding: 8px 18px;
-      font-size: 0.9rem;
-      font-weight: 600;
+      border-radius: 10px;
+      font-size: 16px;
       cursor: pointer;
-      background: var(--accent);
-      color: #ffffff;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
     }
 
-    button span.icon {
-      font-size: 1.1rem;
+    .btn-main {
+      background: #f4a460;
+      color: white;
     }
 
-    button.secondary {
-      background: transparent;
-      color: var(--text-sub);
-      border: 1px solid var(--border);
-      font-weight: 500;
+    .btn-reset {
+      background: #ddd;
+      color: #333;
+      margin-top: 10px;
     }
 
-    .hint {
-      font-size: 0.75rem;
-      color: var(--text-sub);
+    .result-box {
+      margin-top: 32px;
+      padding: 20px;
+      background: #f8f5ef;
+      border-radius: 12px;
     }
 
-    .result-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      margin-bottom: 8px;
-      gap: 8px;
+    .result-title {
+      font-size: 18px;
+      font-weight: bold;
     }
 
-    .result-tagline {
-      font-size: 0.85rem;
-      color: var(--text-sub);
-    }
-
-    .pill {
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      border: 1px solid var(--border);
-      background: #fcfbf8;
-    }
-
-    .pill-safe {
-      border-color: var(--safe);
-      color: var(--safe);
-      background: #f1f7f3;
-    }
-
-    .pill-caution {
-      border-color: #e2a23c;
-      color: #e2a23c;
-      background: #fff6e6;
-    }
-
-    .pill-danger {
-      border-color: var(--danger);
-      color: var(--danger);
-      background: #ffecec;
-    }
-
-    .result-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: 6px;
-      margin-bottom: 10px;
-    }
-
-    .metric {
-      border-radius: var(--radius-sm);
-      padding: 8px 9px;
-      background: #fcfbf8;
-      border: 1px solid var(--border);
-      font-size: 0.8rem;
-    }
-
-    .metric-label {
-      color: var(--text-sub);
-      margin-bottom: 2px;
-    }
-
-    .metric-value {
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-
-    .metric-note {
-      font-size: 0.7rem;
-      color: var(--text-sub);
-    }
-
-    .result-message {
-      font-size: 0.85rem;
-      line-height: 1.7;
-      margin-bottom: 8px;
-    }
-
-    .result-next {
-      font-size: 0.8rem;
-      color: var(--text-sub);
-    }
-
-    .footer-note {
+    .saving-rate {
+      font-size: 24px;
+      font-weight: bold;
       margin-top: 12px;
-      font-size: 0.72rem;
-      color: var(--text-sub);
+    }
+
+    .message {
+      margin-top: 12px;
+      font-size: 16px;
     }
   </style>
 </head>
+
 <body>
-  <div class="app">
-    <header class="hero">
-      <div class="hero-title">Family Money｜家計かんたん診断</div>
-      <p class="hero-sub">
-        40代・晩産夫婦向けのミニ診断です。<br />
-        今の家計バランスをざっくり見える化して、「安心して使えるお金」を考えるきっかけにしてください。
-      </p>
-    </header>
+  <h1>Family Money｜家計かんたん診断</h1>
 
-    <main class="cards">
-      <!-- 入力エリア -->
-      <section class="card">
-        <div class="card-title">
-          毎月の数字を入れてみる
-          <span class="badge">1〜2分でOK</span>
-        </div>
-        <p class="section-help">
-          手取りやざっくりした金額で大丈夫です。思い出せる範囲で、気楽に入れてみてください。
-        </p>
+  <div class="container">
+    <label>① 手取り収入（月）</label>
+    <input id="income" type="number" placeholder="例：350000">
 
-        <form id="kakei-form">
-          <div class="field">
-            <label>① 世帯の毎月の手取り収入
-              <span class="input-suffix">（ボーナスはならしてOK）</span>
-            </label>
-            <input type="number" id="income" min="0" placeholder="例）480000" />
-          </div>
+    <label>② 家賃 / 住宅費</label>
+    <input id="rent" type="number">
 
-          <div class="grid-2">
-            <div class="field">
-              <label>② 住居費（家賃・住宅ローン）<span class="input-suffix">／月</span></label>
-              <input type="number" id="housing" min="0" placeholder="例）120000" />
-            </div>
-            <div class="field">
-              <label>③ 光熱費・通信費など固定費<span class="input-suffix">／月</span></label>
-              <input type="number" id="utilities" min="0" placeholder="例）40000" />
-            </div>
-          </div>
+    <label>③ 光熱費</label>
+    <input id="utility" type="number">
 
-          <div class="grid-2">
-            <div class="field">
-              <label>④ 保険料の合計<span class="input-suffix">／月</span></label>
-              <input type="number" id="insurance" min="0" placeholder="例）30000" />
-            </div>
-            <div class="field">
-              <label>⑤ 保育料・教育費（現時点）<span class="input-suffix">／月</span></label>
-              <input type="number" id="education" min="0" placeholder="例）30000" />
-            </div>
-          </div>
+    <label>④ 通信費（スマホ・ネット）</label>
+    <input id="phone" type="number">
 
-          <div class="field">
-            <label>⑥ 食費・日用品など（家族の生活費）<span class="input-suffix">／月</span></label>
-            <input type="number" id="living" min="0" placeholder="例）90000" />
-          </div>
+    <label>⑤ 保険料</label>
+    <input id="insurance" type="number">
 
-          <div class="field">
-            <label>⑦ レジャー・外食・カフェなどの自由費<span class="input-suffix">／月</span></label>
-            <input type="number" id="play" min="0" placeholder="例）30000" />
-          </div>
+    <label>⑥ 食費</label>
+    <input id="food" type="number">
 
-          <div class="field">
-            <label>⑧ 毎月の貯金・つみたて額<span class="input-suffix">／月</span></label>
-            <input type="number" id="savings" min="0" placeholder="例）50000" />
-          </div>
+    <label>⑦ 日用品</label>
+    <input id="daily" type="number">
 
-          <div class="btn-row">
-            <button type="submit">
-              <span class="icon">▶</span> 家計を診断する
-            </button>
-            <button type="button" class="secondary" id="reset-btn">
-              リセット
-            </button>
-          </div>
-          <p class="hint">
-            ※ 正確な家計簿でなくてOK。「だいたい」で入れても、今のバランスの目安が分かります。
-          </p>
-        </form>
-      </section>
+    <label>⑧ 子ども費</label>
+    <input id="child" type="number">
 
-      <!-- 結果エリア -->
-      <section class="card">
-        <div class="card-title">
-          診断結果
-          <span class="badge">Family Money視点</span>
-        </div>
-        <div id="result-area">
-          <p class="section-help">
-            数字を入力して「家計を診断する」を押すと、ここに結果が表示されます。
-          </p>
-          <p class="section-help">
-            貯蓄率・固定費の割合・安心度タイプを、40代・晩産家庭の目線でやさしく見える化します。
-          </p>
-        </div>
-        <p class="footer-note">
-          ※ これはあくまで簡易診断です。正確なライフプランは、ご家庭の状況に合わせた個別設計が必要です。
-        </p>
-      </section>
-    </main>
+    <label>⑨ その他の支出</label>
+    <input id="other" type="number">
+
+    <button class="btn-main" onclick="calculateKakei()">家計を診断する</button>
+    <button class="btn-reset" onclick="resetForm()">リセット</button>
+
+    <div class="result-box">
+      <div id="result-type" class="result-title">診断結果がここに表示されます</div>
+      <div id="result-saving" class="saving-rate"></div>
+      <div id="result-message" class="message"></div>
+    </div>
   </div>
 
-  <script>
+<script>
 // ==============================
 // 家計診断ロジック（番号付き注釈入り）
 // ==============================
@@ -381,7 +148,6 @@ function calculateKakei() {
   const child = Number(document.getElementById("child").value);
   const other = Number(document.getElementById("other").value);
 
-  // ▼ 入力チェック
   if (!income) {
     alert("手取り収入を入力してください");
     return;
@@ -444,6 +210,16 @@ function calculateKakei() {
   document.getElementById("result-message").textContent = message;
 
 }
-  </script>
+
+
+// リセット処理
+function resetForm() {
+  document.querySelectorAll("input").forEach(i => i.value = "");
+  document.getElementById("result-type").textContent = "診断結果がここに表示されます";
+  document.getElementById("result-saving").textContent = "";
+  document.getElementById("result-message").textContent = "";
+}
+</script>
+
 </body>
 </html>
