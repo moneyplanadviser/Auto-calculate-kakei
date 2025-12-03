@@ -358,7 +358,7 @@
     /* 30年シミュレーション用グラフ */
     .chart-wrapper {
       max-width: 960px;
-      margin: 24px auto 0;
+      margin: 16px auto 0;
     }
 
     .chart-card-title {
@@ -375,7 +375,8 @@
 
     #projectionChart {
       width: 100%;
-      max-height: 320px;
+      height: 220px;       /* 高さをやや低めに固定 → 1画面に収まりやすく */
+      max-height: 220px;
     }
   </style>
 </head>
@@ -558,9 +559,11 @@
       <div class="chart-card-title">30年先までの貯蓄シミュレーション</div>
       <p class="chart-card-note">
         現在の「年間の貯蓄額」と「利回り（年率）」が今後も続いたと仮定したシミュレーションです。<br>
-        棒グラフが各年の貯蓄額、折れ線グラフが利回り込みの累計資産額です。
+        棒グラフ：あなた／青木家それぞれの年間貯蓄額、折れ線グラフ：累計資産額（縦軸は「万円」表示）です。
       </p>
-      <canvas id="projectionChart"></canvas>
+      <div style="width:100%; height:240px;">
+        <canvas id="projectionChart"></canvas>
+      </div>
     </div>
   </div>
 
@@ -651,7 +654,10 @@
     if (rateInput) {
       rateInput.addEventListener("input", () => {
         if (lastResult) {
-          updateProjectionChart(lastResult.annualSavingUser);
+          updateProjectionChart(
+            lastResult.annualSavingUser,
+            lastResult.annualSavingAoki
+          );
         }
       });
     }
@@ -808,8 +814,8 @@
       savingRateAoki: savingRateAoki.toFixed(1)
     };
 
-    // 30年シミュレーション更新
-    updateProjectionChart(annualSavingUser);
+    // 30年シミュレーション更新（あなた＋青木家両方）
+    updateProjectionChart(annualSavingUser, annualSavingAoki);
   }
 
   // フォームのリセット
@@ -839,8 +845,9 @@
     }
   }
 
-  // 30年先までの貯蓄シミュレーション（棒：年次貯蓄額、線：累計資産）
-  function updateProjectionChart(annualSaving) {
+  // 30年先までの貯蓄シミュレーション
+  // 棒：あなた／青木家の年間貯蓄額、線：累計資産額（利回り込み）
+  function updateProjectionChart(annualSavingUser, annualSavingAoki) {
     const canvas = document.getElementById("projectionChart");
     if (!canvas) return;
 
@@ -850,15 +857,25 @@
     const rate = isNaN(r) ? 0 : r;
 
     const years = [];
-    const yearlySavings = [];
-    const totals = [];
+    const yearlySavingsUser = [];
+    const yearlySavingsAoki = [];
+    const totalsUser = [];
+    const totalsAoki = [];
 
-    let total = 0;
+    let totalUser = 0;
+    let totalAoki = 0;
+
     for (let y = 1; y <= 30; y++) {
       years.push(`${y}年目`);
-      yearlySavings.push(Math.round(annualSaving));
-      total = (total + annualSaving) * (1 + rate);
-      totals.push(Math.round(total));
+
+      yearlySavingsUser.push(Math.round(annualSavingUser));
+      yearlySavingsAoki.push(Math.round(annualSavingAoki));
+
+      totalUser = (totalUser + annualSavingUser) * (1 + rate);
+      totalAoki = (totalAoki + annualSavingAoki) * (1 + rate);
+
+      totalsUser.push(Math.round(totalUser));
+      totalsAoki.push(Math.round(totalAoki));
     }
 
     if (projectionChart) {
@@ -871,18 +888,37 @@
         datasets: [
           {
             type: "bar",
-            label: "年間の貯蓄額",
-            data: yearlySavings,
+            label: "あなたの年間貯蓄額",
+            data: yearlySavingsUser,
             yAxisID: "y",
+            order: 2
+          },
+          {
+            type: "bar",
+            label: "青木家モデルの年間貯蓄額",
+            data: yearlySavingsAoki,
+            yAxisID: "y",
+            order: 2
           },
           {
             type: "line",
-            label: "累計資産額（利回り込み）",
-            data: totals,
+            label: "あなたの累計資産額",
+            data: totalsUser,
             yAxisID: "y",
             borderWidth: 2,
             tension: 0.25,
             pointRadius: 2,
+            order: 1
+          },
+          {
+            type: "line",
+            label: "青木家モデルの累計資産額",
+            data: totalsAoki,
+            yAxisID: "y",
+            borderWidth: 2,
+            tension: 0.25,
+            pointRadius: 2,
+            order: 1
           }
         ]
       },
@@ -894,7 +930,9 @@
             beginAtZero: true,
             ticks: {
               callback: function (value) {
-                return value.toLocaleString() + "円";
+                // 縦軸は「万円」表示
+                const man = value / 10000;
+                return man.toLocaleString() + "万円";
               }
             }
           },
@@ -911,7 +949,8 @@
               label: function (ctx) {
                 const label = ctx.dataset.label || "";
                 const v = ctx.parsed.y || 0;
-                return `${label}: ${v.toLocaleString()} 円`;
+                const man = v / 10000;
+                return `${label}: ${man.toLocaleString()} 万円`;
               }
             }
           },
