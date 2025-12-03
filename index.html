@@ -309,9 +309,14 @@
       color: #6e5b3a;
     }
 
-    /* --------- グラフカード ---------- */
+    /* --------- グラフカード（フル幅） ---------- */
+    .chart-wrapper {
+      max-width: 960px;
+      margin: 24px auto 0;
+    }
+
     .chart-card {
-      margin-top: 16px;
+      height: 420px; /* グラフを大きめに表示 */
     }
 
     .chart-note {
@@ -321,8 +326,8 @@
     }
 
     #projectionChart {
-      width: 100%;
-      max-height: 360px; /* 1画面に収まるように */
+      width: 100% !important;
+      height: 320px !important; /* カード内で見やすい高さ */
     }
   </style>
 </head>
@@ -416,7 +421,7 @@
       <button class="btn-reset" onclick="resetForm()">リセット</button>
     </div>
 
-    <!-- 右：結果＋青木家＋保存＋グラフ -->
+    <!-- 右：結果＋青木家＋保存 -->
     <div>
       <!-- 上：家計診断結果 -->
       <div class="card result-card">
@@ -489,17 +494,19 @@
           ※ メール送信は外部サービス（Google Apps Scriptなど）と連携して動きます。
         </p>
       </div>
+    </div>
+  </div>
 
-      <!-- グラフ -->
-      <div class="card chart-card">
-        <div class="section-title">
-          30年先までの貯蓄シミュレーション
-        </div>
-        <p class="chart-note">
-          利回りや家計の見直しによって、将来の貯蓄イメージがどのように変化するかをざっくり確認できます。
-        </p>
-        <canvas id="projectionChart"></canvas>
+  <!-- ▼▼▼ グラフは layout の外に出してフル幅表示 ▼▼▼ -->
+  <div class="chart-wrapper">
+    <div class="card chart-card">
+      <div class="section-title">
+        30年先までの貯蓄シミュレーション
       </div>
+      <p class="chart-note">
+        利回りや家計の見直しによって、将来の貯蓄イメージがどのように変化するかをざっくり確認できます。
+      </p>
+      <canvas id="projectionChart"></canvas>
     </div>
   </div>
 
@@ -581,7 +588,6 @@
       el.addEventListener("input", saveFormValues);
     });
 
-    // 収入が入っていれば自動で再計算
     const incomeVal = Number(document.getElementById("income").value);
     if (incomeVal) {
       calculateKakei();
@@ -621,7 +627,8 @@
     const annualSavingUser   = annualIncome - annualExpenseUser;
     const monthlySavingUser  = annualSavingUser / 12;
 
-    const savingRateUser = annualIncome === 0 ? 0 : (annualSavingUser / annualIncome * 100);
+    const savingRateUser =
+      annualIncome === 0 ? 0 : (annualSavingUser / annualIncome * 100);
 
     const fixedCostAoki =
       aokiBase.rent + aokiBase.utility + aokiBase.phone + aokiBase.insurance;
@@ -633,7 +640,8 @@
     const annualSavingAoki   = annualIncome - annualExpenseAoki;
     const monthlySavingAoki  = annualSavingAoki / 12;
 
-    const savingRateAoki = annualIncome === 0 ? 0 : (annualSavingAoki / annualIncome * 100);
+    const savingRateAoki =
+      annualIncome === 0 ? 0 : (annualSavingAoki / annualIncome * 100);
 
     let type = "";
     let message = "";
