@@ -5,6 +5,9 @@
   <title>Family Money｜家計かんたん診断</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- html2canvas（jsPDFのhtml出力用） -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
   <!-- jsPDF（PDF出力用）CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -845,6 +848,22 @@
       unit: "pt",
       format: "a4"
     });
+
+    try {
+      doc.html(pdfContainer, {
+        callback: function (doc) {
+          const url = doc.output("bloburl");
+          window.open(url, "_blank");
+        },
+        x: 40,
+        y: 40,
+        width: 515
+      });
+    } catch (e) {
+      console.error(e);
+      alert("PDF生成中にエラーが発生しました。");
+    }
+
 
     doc.html(pdfContainer, {
       callback: function (doc) {
